@@ -2,11 +2,11 @@ let timeLeft;
 let timerId = null;
 const modeToggle = document.getElementById('mode-toggle');
 let isWorkMode = true;
+let isRunning = false;
 
 const minutesDisplay = document.getElementById('minutes');
 const secondsDisplay = document.getElementById('seconds');
 const startButton = document.getElementById('start');
-const pauseButton = document.getElementById('pause');
 const resetButton = document.getElementById('reset');
 const modeIndicator = document.getElementById('mode-indicator');
 
@@ -18,7 +18,8 @@ function updateDisplay() {
 }
 
 function startTimer() {
-    if (timerId === null) {
+    if (!isRunning) {
+        isRunning = true;
         timerId = setInterval(() => {
             timeLeft--;
             updateDisplay();
@@ -29,18 +30,32 @@ function startTimer() {
                 resetTimer();
             }
         }, 1000);
+        startButton.textContent = 'Pause';
+        document.querySelector('.timer').classList.add('running');
+        document.querySelector('.timer').classList.remove('paused');
+    } else {
+        pauseTimer();
     }
 }
 
 function pauseTimer() {
-    clearInterval(timerId);
-    timerId = null;
+    if (isRunning) {
+        isRunning = false;
+        clearInterval(timerId);
+        timerId = null;
+        startButton.textContent = 'Start';
+        document.querySelector('.timer').classList.remove('running');
+        document.querySelector('.timer').classList.add('paused');
+    }
 }
 
 function resetTimer() {
+    isRunning = false;
     clearInterval(timerId);
     timerId = null;
     timeLeft = isWorkMode ? 25 * 60 : 5 * 60;
+    startButton.textContent = 'Start';
+    document.querySelector('.timer').classList.remove('running', 'paused');
     updateDisplay();
 }
 
@@ -58,6 +73,5 @@ updateDisplay();
 
 // Event listeners
 startButton.addEventListener('click', startTimer);
-pauseButton.addEventListener('click', pauseTimer);
 resetButton.addEventListener('click', resetTimer);
 modeToggle.addEventListener('click', switchMode); 

@@ -10,6 +10,15 @@
     }
 }
 
+@keyframes shimmer {
+    0% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 body {
     font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     display: flex;
@@ -73,6 +82,15 @@ h1 {
     color: #000000;
     font-variant-numeric: tabular-nums;
     letter-spacing: -2px;
+    transition: color 0.3s ease;
+}
+
+.timer.running {
+    color: #2B5329; /* deep forest green */
+}
+
+.timer.paused {
+    color: #888888; /* light grey */
 }
 
 .controls {
@@ -92,11 +110,51 @@ h1 {
     transition: all 0.2s ease;
     background: #000000;
     color: white;
+    min-width: 100px;
 }
 
-.controls button:hover, .mode button:hover {
-    transform: translateY(-1px);
-    background: #333333;
+#start {
+    background: linear-gradient(
+        90deg,
+        #A78BFA 0%,
+        #8B5CF6 20%,
+        #5B21B6 40%,
+        #A78BFA 60%,
+        #8B5CF6 80%,
+        #5B21B6 100%
+    );
+    background-size: 200% 100%;
+    background-position: 100% 50%;
+    border: 1px solid #7C3AED;
+    transition: all 0.3s ease;
+}
+
+#start:hover {
+    animation: shimmer 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+#reset {
+    background: #1F2937;
+    border: 2px solid;
+    border-radius: 12px;
+    position: relative;
+    color: white;
+}
+
+#reset::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, #A78BFA 0%, #5B21B6 100%) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    margin: -2px;
 }
 
 #pause {
@@ -105,14 +163,6 @@ h1 {
 
 #pause:hover {
     background: #777777;
-}
-
-#reset {
-    background: #444444;
-}
-
-#reset:hover {
-    background: #555555;
 }
 
 .mode {
