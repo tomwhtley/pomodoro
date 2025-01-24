@@ -18,6 +18,10 @@ function updateDisplay() {
 }
 
 function startTimer() {
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const startButton = document.getElementById('start');
+    
     if (!isRunning) {
         isRunning = true;
         timerId = setInterval(() => {
@@ -30,7 +34,9 @@ function startTimer() {
                 resetTimer();
             }
         }, 1000);
-        startButton.textContent = 'Pause';
+        playIcon.classList.add('hidden');
+        pauseIcon.classList.remove('hidden');
+        startButton.classList.add('running');
         document.querySelector('.timer').classList.add('running');
         document.querySelector('.timer').classList.remove('paused');
     } else {
@@ -39,29 +45,54 @@ function startTimer() {
 }
 
 function pauseTimer() {
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const startButton = document.getElementById('start');
+    
     if (isRunning) {
         isRunning = false;
         clearInterval(timerId);
         timerId = null;
-        startButton.textContent = 'Start';
+        playIcon.classList.remove('hidden');
+        pauseIcon.classList.add('hidden');
+        startButton.classList.remove('running');
         document.querySelector('.timer').classList.remove('running');
         document.querySelector('.timer').classList.add('paused');
     }
 }
 
 function resetTimer() {
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const startButton = document.getElementById('start');
+    
     isRunning = false;
     clearInterval(timerId);
     timerId = null;
     timeLeft = isWorkMode ? 25 * 60 : 5 * 60;
-    startButton.textContent = 'Start';
+    playIcon.classList.remove('hidden');
+    pauseIcon.classList.add('hidden');
+    startButton.classList.remove('running');
     document.querySelector('.timer').classList.remove('running', 'paused');
     updateDisplay();
 }
 
 function switchMode() {
     isWorkMode = !isWorkMode;
-    modeIndicator.textContent = isWorkMode ? 'Work Mode' : 'Rest Mode';
+    const moonIcon = document.getElementById('moon-icon');
+    const sunIcon = document.getElementById('sun-icon');
+    const modeToggle = document.getElementById('mode-toggle');
+    
+    if (isWorkMode) {
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+        modeToggle.classList.remove('rest-mode');
+    } else {
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+        modeToggle.classList.add('rest-mode');
+    }
+    
     resetTimer();
     timeLeft = isWorkMode ? 25 * 60 : 5 * 60;
     updateDisplay();
