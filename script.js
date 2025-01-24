@@ -8,6 +8,7 @@ const secondsDisplay = document.getElementById('seconds');
 const startButton = document.getElementById('start');
 const pauseButton = document.getElementById('pause');
 const resetButton = document.getElementById('reset');
+const modeIndicator = document.getElementById('mode-indicator');
 
 function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
@@ -45,7 +46,7 @@ function resetTimer() {
 
 function switchMode() {
     isWorkMode = !isWorkMode;
-    modeToggle.textContent = isWorkMode ? 'Work Mode' : 'Rest Mode';
+    modeIndicator.textContent = isWorkMode ? 'Work Mode' : 'Rest Mode';
     resetTimer();
     timeLeft = isWorkMode ? 25 * 60 : 5 * 60;
     updateDisplay();
