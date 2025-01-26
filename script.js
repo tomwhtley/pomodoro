@@ -82,15 +82,18 @@ function switchMode() {
     const moonIcon = document.getElementById('moon-icon');
     const sunIcon = document.getElementById('sun-icon');
     const modeToggle = document.getElementById('mode-toggle');
+    const body = document.body;
     
     if (isWorkMode) {
         sunIcon.classList.remove('hidden');
         moonIcon.classList.add('hidden');
         modeToggle.classList.remove('rest-mode');
+        body.classList.remove('rest-mode');
     } else {
         sunIcon.classList.add('hidden');
         moonIcon.classList.remove('hidden');
         modeToggle.classList.add('rest-mode');
+        body.classList.add('rest-mode');
     }
     
     resetTimer();
