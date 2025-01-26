@@ -10,11 +10,21 @@ const startButton = document.getElementById('start');
 const resetButton = document.getElementById('reset');
 const modeIndicator = document.getElementById('mode-indicator');
 
+const originalTitle = document.title;
+
 function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
     minutesDisplay.textContent = minutes.toString().padStart(2, '0');
     secondsDisplay.textContent = seconds.toString().padStart(2, '0');
+}
+
+function updateTitle() {
+    if (document.hidden) {
+        document.title = `(${minutesDisplay.textContent}:${secondsDisplay.textContent}) ${originalTitle}`;
+    } else {
+        document.title = originalTitle;
+    }
 }
 
 function startTimer() {
@@ -27,6 +37,7 @@ function startTimer() {
         timerId = setInterval(() => {
             timeLeft--;
             updateDisplay();
+            updateTitle();
             if (timeLeft === 0) {
                 clearInterval(timerId);
                 timerId = null;
@@ -108,4 +119,5 @@ updateDisplay();
 // Event listeners
 startButton.addEventListener('click', startTimer);
 resetButton.addEventListener('click', resetTimer);
-modeToggle.addEventListener('click', switchMode); 
+modeToggle.addEventListener('click', switchMode);
+document.addEventListener('visibilitychange', updateTitle); 
